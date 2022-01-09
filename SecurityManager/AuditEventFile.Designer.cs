@@ -61,29 +61,29 @@ namespace SecurityManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User {0} is successfully authenticated..
+        ///   Looks up a localized string similar to User {0} is successfully restarted stopwatch..
         /// </summary>
-        internal static string AuthenticationSuccess {
+        internal static string RestartSuccess {
             get {
-                return ResourceManager.GetString("AuthenticationSuccess", resourceCulture);
+                return ResourceManager.GetString("RestartSuccess", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User {0} failed to access {1}. Reason: {2}..
+        ///   Looks up a localized string similar to User {0} is successfully started stopwatch..
         /// </summary>
-        internal static string AuthorizationFailure {
+        internal static string StartSuccess {
             get {
-                return ResourceManager.GetString("AuthorizationFailure", resourceCulture);
+                return ResourceManager.GetString("StartSuccess", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User {0} successfully accessed to {1}..
+        ///   Looks up a localized string similar to User {0} is successfully stopped stopwatch..
         /// </summary>
-        internal static string AuthorizationSuccess {
+        internal static string StopSuccess {
             get {
-                return ResourceManager.GetString("AuthorizationSuccess", resourceCulture);
+                return ResourceManager.GetString("StopSuccess", resourceCulture);
             }
         }
     }
