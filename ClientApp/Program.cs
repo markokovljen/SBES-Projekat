@@ -11,16 +11,14 @@ namespace ClientApp
 	{
 		static void Main(string[] args)
 		{
-           // Debugger.Launch();
+           
 
 			NetTcpBinding binding = new NetTcpBinding();
 			string address = "net.tcp://localhost:9999/WCFService";
 
 			using (WCFClient proxy = new WCFClient(binding, new EndpointAddress(new Uri(address))))
 			{
-				proxy.Read();
-                proxy.Modify();
-                proxy.Delete();
+				
 			}
 
 			Console.ReadLine();
