@@ -60,6 +60,7 @@
     </Compile>
     <Compile Include="RolesConfig.cs" />
     <Compile Include="ServerClientCertValidator.cs" />
+    <Compile Include="StaticHelp.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AuditEventFile.resx">

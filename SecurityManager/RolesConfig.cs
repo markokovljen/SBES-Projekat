@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SecurityManager
 {
-    class RolesConfig
+    public class RolesConfig
     {
         public static bool GetPermissions(string rolename, out string[] permissions)
         {

@@ -10,6 +10,8 @@ using System.Threading;
 using System.ServiceModel.Security;
 using System.ServiceModel;
 using SecurityManager;
+using System.Security.Cryptography.X509Certificates;
+using System.Diagnostics;
 
 namespace ServiceApp
 {
@@ -17,12 +19,44 @@ namespace ServiceApp
     {
         public void Pauziraj(string subjectName)
         {
-            throw new NotImplementedException();
+            string group = CertManager.GetGroup(StoreName.My, StoreLocation.LocalMachine, subjectName);
+            string[] permissions;
+            if (RolesConfig.GetPermissions(group, out permissions))
+            {
+                foreach (string permision in permissions)
+                {
+                    if (permision.Equals("StartPause"))
+                    {
+                        StaticHelp.stopwatch.Stop();
+                        Console.WriteLine("Zaustavljena je stopwatch");
+                       
+                    }
+
+                }
+            }
+            throw new FaultException("Nema klijent permisiju za ovu komandu!");
         }
 
         public void Pokreni(string subjectName)
         {
-            throw new NotImplementedException();
+            StaticHelp.stopwatch = new Stopwatch();
+            string group = CertManager.GetGroup(StoreName.My, StoreLocation.LocalMachine, subjectName);
+            string[] permissions;
+            if (RolesConfig.GetPermissions(group, out permissions))
+            {
+                foreach (string permision in permissions)
+                {
+                    if (permision.Equals("StartPause"))
+                    {
+                        StaticHelp.stopwatch.Start();
+                        Console.WriteLine("Pokrenuta je stopwatch");
+                        
+                        return;
+                    }
+
+                }
+            }
+            throw new FaultException("Nema klijent permisiju za ovu komandu!");
         }
 
         public void PromeniVreme(string subjectName, string vreme)
@@ -32,12 +66,46 @@ namespace ServiceApp
 
         public void Resetuj(string subjectName)
         {
-            throw new NotImplementedException();
+            StaticHelp.stopwatch = new Stopwatch();
+            string group = CertManager.GetGroup(StoreName.My, StoreLocation.LocalMachine, subjectName);
+            string[] permissions;
+            if (RolesConfig.GetPermissions(group, out permissions))
+            {
+                foreach (string permision in permissions)
+                {
+                    if (permision.Equals("Reset"))
+                    {
+                        StaticHelp.stopwatch.Reset();
+                        Console.WriteLine("Resetovana je stopwatch");
+                        
+                        return;
+                    }
+
+                }
+            }
+            throw new FaultException("Nema klijent permisiju za ovu komandu!");
         }
 
         public string VidiVreme(string subjectName)
         {
-            throw new NotImplementedException();
+            string group = CertManager.GetGroup(StoreName.My, StoreLocation.LocalMachine, subjectName);
+            string[] permissions;
+            if (RolesConfig.GetPermissions(group, out permissions))
+            {
+                foreach (string permision in permissions)
+                {
+                    if (permision.Equals("Read"))
+                    {
+                        TimeSpan ts = StaticHelp.stopwatch.Elapsed;
+                        string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                            ts.Hours, ts.Minutes, ts.Seconds,
+                            ts.Milliseconds / 10);
+                        return elapsedTime;
+                    }
+
+                }
+            }
+            throw new FaultException("Nema klijent permisiju za ovu komandu!");
         }
     }
 }
