@@ -67,6 +67,10 @@
       <Project>{74B0D2F1-2901-4C41-A8C1-E86D01BE2F1C}</Project>
       <Name>Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SecurityManager\SecurityManager.csproj">
+      <Project>{ebf826b8-7f0b-475e-a884-10d33de25937}</Project>
+      <Name>SecurityManager</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
