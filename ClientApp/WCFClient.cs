@@ -16,7 +16,11 @@ namespace ClientApp
 {
 	public class WCFClient : ChannelFactory<IWCFService>, IWCFService, IDisposable
 	{
-		IWCFService factory;
+
+        public static readonly string Key = "ow7dxys8glfor9tnc2ansdfo1etkfjcv";
+        public static readonly Encoding Encoder = Encoding.UTF8;
+
+        IWCFService factory;
 
 		public WCFClient(NetTcpBinding binding, EndpointAddress address)
 			: base(binding, address)
@@ -32,18 +36,6 @@ namespace ClientApp
             this.Credentials.ClientCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, cltCertCN);
 
             factory = this.CreateChannel();
-		}
-
-		
-
-		public void Dispose()
-		{
-			if (factory != null)
-			{
-				factory = null;
-			}
-
-			this.Close();
 		}
 
         public void Pauziraj(string subjectName)
@@ -83,7 +75,20 @@ namespace ClientApp
 
         public void PromeniVreme(string subjectName, string vreme)
         {
-            throw new NotImplementedException();
+            try
+            {
+                string encMessage = TripleDesEncrypt(vreme);
+                factory.PromeniVreme(subjectName, encMessage);
+                Console.WriteLine("Resetuj allowed.");
+            }
+            catch (SecurityAccessDeniedException e)
+            {
+                Console.WriteLine("Error while trying to Resetuj. Error message: {0}", e.Message);
+            }
+            catch (FaultException e)
+            {
+                Console.WriteLine("Error while trying to Resetuj. Error message: {0}", e.Message);
+            }
         }
 
         public void Resetuj(string subjectName)
@@ -120,5 +125,38 @@ namespace ClientApp
                 return "Error while trying to Pauziraj. Error message: " + e.Message;
             }
         }
+
+        public static TripleDES CreateDes(string key)
+        {
+            MD5 md5 = new MD5CryptoServiceProvider();
+            TripleDES des = new TripleDESCryptoServiceProvider();
+            var desKey = md5.ComputeHash(Encoding.UTF8.GetBytes(key));
+            des.Key = desKey;
+            des.IV = new byte[des.BlockSize / 8];
+            des.Padding = PaddingMode.PKCS7;
+            des.Mode = CipherMode.ECB;
+            return des;
+        }
+
+        public static string TripleDesEncrypt(string plainText)
+        {
+            var des = CreateDes(Key);
+            var ct = des.CreateEncryptor();
+            var input = Encoding.UTF8.GetBytes(plainText);
+            var output = ct.TransformFinalBlock(input, 0, input.Length);
+            return Convert.ToBase64String(output);
+        }
+
+        public void Dispose()
+		{
+			if (factory != null)
+			{
+				factory = null;
+			}
+
+			this.Close();
+		}
+
+       
     }
 }
