@@ -28,6 +28,14 @@ namespace ServiceApp
                     if (permision.Equals("StartPause"))
                     {
                         StaticHelp.stopwatch.Stop();
+                        try
+                        {
+                            Audit.StopSuccess(subjectName);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
                         Console.WriteLine("Zaustavljena je stopwatch");
                        
                     }
@@ -50,7 +58,14 @@ namespace ServiceApp
                     {
                         StaticHelp.stopwatch.Start();
                         Console.WriteLine("Pokrenuta je stopwatch");
-                        
+                        try
+                        {
+                            Audit.StartSuccess(subjectName);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
                         return;
                     }
 
@@ -77,7 +92,14 @@ namespace ServiceApp
                     {
                         StaticHelp.stopwatch.Reset();
                         Console.WriteLine("Resetovana je stopwatch");
-                        
+                        try
+                        {
+                            Audit.RestartSuccess(subjectName);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
                         return;
                     }
 
