@@ -12,12 +12,14 @@ namespace Contracts
     public interface IWCFService
     {
         [OperationContract]
-        void Read();
-
+        void Pokreni(string subjectName);
         [OperationContract]
-        void Modify();
-
-		[OperationContract]
-        void Delete();	
-	}
+        void Pauziraj(string subjectName);
+        [OperationContract]
+        string VidiVreme(string subjectName);
+        [OperationContract]
+        void Resetuj(string subjectName);
+        [OperationContract]
+        void PromeniVreme(string subjectName, string vreme);
+    }
 }
