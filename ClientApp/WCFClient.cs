@@ -33,12 +33,37 @@ namespace ClientApp
 
         public void Pauziraj(string subjectName)
         {
-            throw new NotImplementedException();
+            try
+            {
+                factory.Pauziraj(subjectName);
+                Console.WriteLine("Pauziraj allowed.");
+            }
+            catch (SecurityAccessDeniedException e)
+            {
+                Console.WriteLine("Error while trying to Pauziraj. Error message: {0}", e.Message);
+            }
+            catch (FaultException e)
+            {
+                Console.WriteLine("Error while trying to Pauziraj. Error message: {0}", e.Message);
+            }
         }
 
         public void Pokreni(string subjectName)
         {
-            throw new NotImplementedException();
+            try
+            {
+                factory.Pokreni(subjectName);
+                Console.WriteLine("Pokreni allowed.");
+            }
+            catch (SecurityAccessDeniedException e)
+            {
+                Console.WriteLine("Error while trying to Pokreni. Error message: {0}", e.Message);
+
+            }
+            catch (FaultException e)
+            {
+                Console.WriteLine("Fault exp Error while trying to Pokreni. Error message: {0}", e.Message);
+            }
         }
 
         public void PromeniVreme(string subjectName, string vreme)
@@ -48,12 +73,37 @@ namespace ClientApp
 
         public void Resetuj(string subjectName)
         {
-            throw new NotImplementedException();
+            try
+            {
+                factory.Resetuj(subjectName);
+                Console.WriteLine("Resetuj allowed.");
+            }
+            catch (SecurityAccessDeniedException e)
+            {
+                Console.WriteLine("Error while trying to Resetuj. Error message: {0}", e.Message);
+            }
+            catch (FaultException e)
+            {
+                Console.WriteLine("Error while trying to Resetuj. Error message: {0}", e.Message);
+            }
         }
 
         public string VidiVreme(string subjectName)
         {
-            throw new NotImplementedException();
+            try
+            {
+                string povratna = factory.VidiVreme(subjectName);
+                Console.WriteLine("VidiVreme allowed.");
+                return povratna;
+            }
+            catch (SecurityAccessDeniedException e)
+            {
+                return "Error while trying to Pauziraj. Error message: " + e.Message;
+            }
+            catch (FaultException e)
+            {
+                return "Error while trying to Pauziraj. Error message: " + e.Message;
+            }
         }
     }
 }
