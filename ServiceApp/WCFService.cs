@@ -13,101 +13,31 @@ using SecurityManager;
 
 namespace ServiceApp
 {
-	public class WCFService : IWCFService
-	{
-        public void Read()
-		{
-			Console.WriteLine("Read successfully executed.");
-
-            CustomPrincipal principal = Thread.CurrentPrincipal as CustomPrincipal;
-            string userName = Formatter.ParseName(principal.Identity.Name);
-
-            try
-            {
-                Audit.AuthorizationSuccess(userName,
-                    OperationContext.Current.IncomingMessageHeaders.Action);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-
+    public class WCFService : IWCFService
+    {
+        public void Pauziraj(string subjectName)
+        {
+            throw new NotImplementedException();
         }
 
-        //[PrincipalPermission(SecurityAction.Demand, Role = "Modify")]
-        public void Modify()
-		{
-            CustomPrincipal principal = Thread.CurrentPrincipal as CustomPrincipal;
-            string userName = Formatter.ParseName(principal.Identity.Name);
-
-            if (Thread.CurrentPrincipal.IsInRole("Modify"))
-            {
-                Console.WriteLine("Modify successfully executed.");
-
-                try
-                {
-                    Audit.AuthorizationSuccess(userName,
-                        OperationContext.Current.IncomingMessageHeaders.Action);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-
-            }
-            else
-            {
-                try
-                {
-                    Audit.AuthorizationFailed(userName,
-                        OperationContext.Current.IncomingMessageHeaders.Action, "Modify method need Modify permission.");
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-
-                throw new FaultException("User " + userName +
-                    " try to call Modify method. Modify method need  Modify permission.");
-            }
+        public void Pokreni(string subjectName)
+        {
+            throw new NotImplementedException();
         }
 
-        //[PrincipalPermission(SecurityAction.Demand, Role = "Delete")]
-        public void Delete()
-		{
-            CustomPrincipal principal = Thread.CurrentPrincipal as CustomPrincipal;
-            string userName = Formatter.ParseName(principal.Identity.Name);
+        public void PromeniVreme(string subjectName, string vreme)
+        {
+            throw new NotImplementedException();
+        }
 
-            if (Thread.CurrentPrincipal.IsInRole("Delete"))
-            {
-                Console.WriteLine("Delete successfully executed.");
+        public void Resetuj(string subjectName)
+        {
+            throw new NotImplementedException();
+        }
 
-                try
-                {
-                    Audit.AuthorizationSuccess(userName,
-                        OperationContext.Current.IncomingMessageHeaders.Action);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-            }
-            else
-            {
-                try
-                {
-                    Audit.AuthorizationFailed(userName,
-                        OperationContext.Current.IncomingMessageHeaders.Action, "Delete method need Delete permission.");
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-
-                throw new FaultException("User " + userName +
-                    " try to call Delete method. Delete method need Delete permission.");
-            }
-		}
-
-	}
+        public string VidiVreme(string subjectName)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
