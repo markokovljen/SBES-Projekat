@@ -6,6 +6,11 @@ using System.ServiceModel;
 using Contracts;
 using System.ServiceModel.Security;
 using System.Security;
+using SecurityManager;
+using System.Security.Principal;
+using System.Security.Cryptography.X509Certificates;
+using System.Diagnostics;
+using System.Security.Cryptography;
 
 namespace ClientApp
 {
@@ -16,7 +21,17 @@ namespace ClientApp
 		public WCFClient(NetTcpBinding binding, EndpointAddress address)
 			: base(binding, address)
 		{
-			factory = this.CreateChannel();
+            string cltCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);//ovde ce biti user mika npr(tj onaj koji je trenutno pokrenuo klijenta)
+
+            Console.WriteLine(cltCertCN);
+
+            this.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom;
+            this.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new ServerClientCertValidator();
+            this.Credentials.ServiceCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
+
+            this.Credentials.ClientCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, cltCertCN);
+
+            factory = this.CreateChannel();
 		}
 
 		
